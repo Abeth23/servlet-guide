@@ -2,7 +2,7 @@
     <%@ page import="com.hulkhire.servlet.Match" %>
         <%@ page import="java.util.List" %>
             <% Match match=(Match) session.getAttribute("match"); if (match==null) { response.sendRedirect("index.jsp");
-                return; } %>
+                return; } boolean isInnings2=match.getCurrentInnings()==2; %>
                 <!DOCTYPE html>
                 <html lang="en">
 
@@ -109,8 +109,9 @@
                         .stats-row {
                             display: flex;
                             justify-content: center;
-                            gap: 32px;
+                            gap: 24px;
                             margin-bottom: 16px;
+                            flex-wrap: wrap;
                         }
 
                         .stat {
@@ -118,7 +119,7 @@
                         }
 
                         .stat-val {
-                            font-size: 22px;
+                            font-size: 20px;
                             font-weight: 800;
                             color: #1a472a;
                         }
@@ -128,6 +129,33 @@
                             color: #aaa;
                             text-transform: uppercase;
                             letter-spacing: 1px;
+                        }
+
+                        /* Target banner for innings 2 */
+                        .target-banner {
+                            background: linear-gradient(135deg, #1a472a, #52b788);
+                            color: white;
+                            border-radius: 12px;
+                            padding: 14px 20px;
+                            margin-bottom: 16px;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+
+                        .target-banner .t-label {
+                            font-size: 12px;
+                            opacity: 0.85;
+                        }
+
+                        .target-banner .t-val {
+                            font-size: 22px;
+                            font-weight: 900;
+                        }
+
+                        .target-banner .t-need {
+                            font-size: 13px;
+                            opacity: 0.9;
                         }
 
                         .current-over {
@@ -317,7 +345,6 @@
                             font-weight: 700;
                             cursor: pointer;
                             margin-top: 12px;
-                            letter-spacing: 1px;
                             transition: opacity 0.3s;
                         }
 
@@ -333,12 +360,15 @@
                         <div class="header">
                             <h1>🏏 CricTrack <span class="live-badge">LIVE</span></h1>
                             <p>
-                                <%= match.getTeam1() %> vs <%= match.getTeam2() %>
+                                <%= match.getTeam1() %> vs <%= match.getTeam2() %> —
+                                        <%= isInnings2 ? "2nd" : "1st" %> Innings
                             </p>
                         </div>
 
                         <div class="score-card">
-                            <div class="team-name">⚡ <%= match.getTeam1() %> Innings</div>
+                            <div class="team-name">
+                                ⚡ <%= isInnings2 ? match.getTeam2() : match.getTeam1() %> Innings
+                            </div>
                             <div class="score">
                                 <%= match.getRuns() %><span>/<%= match.getWickets() %></span>
                             </div>
@@ -361,24 +391,56 @@
                                 </div>
                                 <div class="stat">
                                     <div class="stat-val">
-                                        <%= (match.getTotalOvers() - match.getCompletedOvers()) %>
+                                        <%= match.getTotalOvers() - match.getCompletedOvers() %>
                                     </div>
                                     <div class="stat-lbl">Overs Left</div>
                                 </div>
+                                <% if (isInnings2) { %>
+                                    <div class="stat">
+                                        <div class="stat-val">
+                                            <%= match.getRunsNeeded() %>
+                                        </div>
+                                        <div class="stat-lbl">Runs Needed</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-val">
+                                            <%= match.getBallsRemaining() %>
+                                        </div>
+                                        <div class="stat-lbl">Balls Left</div>
+                                    </div>
+                                    <% } %>
                             </div>
 
-                            <div class="current-over">
-                                <div class="over-label">This Over</div>
-                                <div class="balls">
-                                    <% if (match.getCurrentOver().isEmpty()) { %>
-                                        <span style="color:#ccc; font-size:13px;">No balls yet</span>
-                                        <% } else { for (String b : match.getCurrentOver()) { %>
-                                            <div class="ball ball-<%= b %>">
-                                                <%= b %>
-                                            </div>
-                                            <% }} %>
+                            <!-- Target banner only for innings 2 -->
+                            <% if (isInnings2) { %>
+                                <div class="target-banner">
+                                    <div>
+                                        <div class="t-label">🎯 Target</div>
+                                        <div class="t-val">
+                                            <%= match.getTarget() %>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="t-need">
+                                            Need <%= match.getRunsNeeded() %> runs
+                                                in <%= match.getBallsRemaining() %> balls
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <% } %>
+
+                                    <div class="current-over">
+                                        <div class="over-label">This Over</div>
+                                        <div class="balls">
+                                            <% if (match.getCurrentOver().isEmpty()) { %>
+                                                <span style="color:#ccc; font-size:13px;">No balls yet</span>
+                                                <% } else { for (String b : match.getCurrentOver()) { %>
+                                                    <div class="ball ball-<%= b %>">
+                                                        <%= b %>
+                                                    </div>
+                                                    <% }} %>
+                                        </div>
+                                    </div>
                         </div>
 
                         <div class="btn-panel">

@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="UTF-8">
-                    <title>CricTrack - Scorecard</title>
+                    <title>CricTrack - Final Scorecard</title>
                     <style>
                         * {
                             margin: 0;
@@ -24,7 +24,7 @@
                         }
 
                         .container {
-                            max-width: 620px;
+                            max-width: 640px;
                             margin: 0 auto;
                         }
 
@@ -78,13 +78,47 @@
                             }
                         }
 
+                        /* Winner Banner */
+                        .winner-banner {
+                            background: linear-gradient(135deg, #f39c12, #e67e22);
+                            color: white;
+                            border-radius: 16px;
+                            padding: 20px;
+                            text-align: center;
+                            margin-bottom: 24px;
+                            box-shadow: 0 4px 20px rgba(243, 156, 18, 0.4);
+                            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                        }
+
+                        @keyframes popIn {
+                            from {
+                                opacity: 0;
+                                transform: scale(0.8);
+                            }
+
+                            to {
+                                opacity: 1;
+                                transform: scale(1);
+                            }
+                        }
+
+                        .winner-banner .trophy {
+                            font-size: 36px;
+                            margin-bottom: 6px;
+                        }
+
+                        .winner-banner .winner-text {
+                            font-size: 20px;
+                            font-weight: 800;
+                        }
+
                         .match-title {
                             text-align: center;
                             margin-bottom: 20px;
                         }
 
                         .match-title h2 {
-                            font-size: 22px;
+                            font-size: 20px;
                             color: #1a472a;
                             margin-bottom: 4px;
                         }
@@ -94,66 +128,59 @@
                             font-size: 13px;
                         }
 
-                        .final-score {
-                            text-align: center;
-                            background: linear-gradient(135deg, #1a472a, #52b788);
-                            color: white;
-                            border-radius: 16px;
-                            padding: 24px;
-                            margin-bottom: 20px;
+                        /* Both innings scores side by side */
+                        .innings-grid {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 14px;
+                            margin-bottom: 24px;
                         }
 
-                        .final-score .team {
-                            font-size: 12px;
-                            opacity: 0.85;
+                        .innings-box {
+                            border-radius: 14px;
+                            padding: 16px;
+                            text-align: center;
+                        }
+
+                        .innings-box.inn1 {
+                            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+                            color: white;
+                        }
+
+                        .innings-box.inn2 {
+                            background: linear-gradient(135deg, #1565c0, #1976d2);
+                            color: white;
+                        }
+
+                        .inn-label {
+                            font-size: 10px;
+                            opacity: 0.8;
                             text-transform: uppercase;
-                            letter-spacing: 2px;
+                            letter-spacing: 1px;
                             margin-bottom: 4px;
                         }
 
-                        .final-score .runs {
-                            font-size: 60px;
+                        .inn-team {
+                            font-size: 14px;
+                            font-weight: 700;
+                            margin-bottom: 6px;
+                        }
+
+                        .inn-score {
+                            font-size: 36px;
                             font-weight: 900;
                             line-height: 1;
                         }
 
-                        .final-score .runs span {
-                            font-size: 36px;
+                        .inn-score span {
+                            font-size: 22px;
                             opacity: 0.7;
                         }
 
-                        .final-score .over {
-                            font-size: 15px;
+                        .inn-overs {
+                            font-size: 12px;
                             opacity: 0.8;
-                            margin-top: 6px;
-                        }
-
-                        .stats-grid {
-                            display: grid;
-                            grid-template-columns: repeat(3, 1fr);
-                            gap: 12px;
-                            margin-bottom: 24px;
-                        }
-
-                        .stat-box {
-                            background: #f8f9fa;
-                            border-radius: 12px;
-                            padding: 14px;
-                            text-align: center;
-                        }
-
-                        .stat-box .val {
-                            font-size: 24px;
-                            font-weight: 800;
-                            color: #1a472a;
-                        }
-
-                        .stat-box .lbl {
-                            font-size: 10px;
-                            color: #aaa;
-                            text-transform: uppercase;
-                            letter-spacing: 1px;
-                            margin-top: 2px;
+                            margin-top: 4px;
                         }
 
                         .section-title {
@@ -163,23 +190,31 @@
                             text-transform: uppercase;
                             letter-spacing: 2px;
                             margin-bottom: 12px;
+                            margin-top: 20px;
                         }
 
                         .over-table {
                             width: 100%;
                             border-collapse: collapse;
-                            margin-bottom: 24px;
+                            margin-bottom: 8px;
                             font-size: 14px;
                         }
 
                         .over-table th {
-                            background: linear-gradient(135deg, #1a472a, #2d6a4f);
-                            color: white;
                             padding: 10px 12px;
                             text-align: left;
                             font-size: 11px;
                             letter-spacing: 1px;
                             text-transform: uppercase;
+                            color: white;
+                        }
+
+                        .over-table.t1 th {
+                            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+                        }
+
+                        .over-table.t2 th {
+                            background: linear-gradient(135deg, #1565c0, #1976d2);
                         }
 
                         .over-table th:first-child {
@@ -262,22 +297,23 @@
                             display: flex;
                             flex-wrap: wrap;
                             gap: 8px;
-                            margin-bottom: 24px;
+                            margin-bottom: 16px;
                         }
 
                         .fow-badge {
                             background: #fff0f0;
                             border: 1px solid #ffcccc;
                             color: #c0392b;
-                            padding: 4px 14px;
+                            padding: 4px 12px;
                             border-radius: 20px;
-                            font-size: 13px;
+                            font-size: 12px;
                             font-weight: 700;
                         }
 
                         .btn-row {
                             display: flex;
                             gap: 12px;
+                            margin-top: 24px;
                         }
 
                         .btn-print {
@@ -334,7 +370,7 @@
 
                         <div class="header">
                             <h1>🏏 CricTrack</h1>
-                            <p>Match Scorecard</p>
+                            <p>Final Scorecard</p>
                         </div>
 
                         <div class="card">
@@ -347,46 +383,54 @@
                                         <%= match.getTotalOvers() %> Overs Match</p>
                             </div>
 
-                            <div class="final-score">
-                                <div class="team">⚡ <%= match.getTeam1() %> Innings</div>
-                                <div class="runs">
-                                    <%= match.getRuns() %><span>/<%= match.getWickets() %></span>
-                                </div>
-                                <div class="over">
-                                    (<%= match.getOverDisplay() %> Overs)
+                            <!-- Winner Banner -->
+                            <div class="winner-banner">
+                                <div class="trophy">🏆</div>
+                                <div class="winner-text">
+                                    <%= match.getWinner() %>
                                 </div>
                             </div>
 
-                            <div class="stats-grid">
-                                <div class="stat-box">
-                                    <div class="val">
-                                        <%= match.getRunRate() %>
+                            <!-- Both Innings Scores -->
+                            <div class="innings-grid">
+                                <div class="innings-box inn1">
+                                    <div class="inn-label">1st Innings</div>
+                                    <div class="inn-team">
+                                        <%= match.getTeam1() %>
                                     </div>
-                                    <div class="lbl">Run Rate</div>
+                                    <div class="inn-score">
+                                        <%= match.getRuns1() %><span>/<%= match.getWickets1() %></span>
+                                    </div>
+                                    <div class="inn-overs">
+                                        (<%= match.getCompletedOvers1() %>.<%= match.getBallsInOver1() %> Overs)
+                                    </div>
                                 </div>
-                                <div class="stat-box">
-                                    <div class="val">
-                                        <%= match.getWickets() %>
+                                <div class="innings-box inn2">
+                                    <div class="inn-label">2nd Innings</div>
+                                    <div class="inn-team">
+                                        <%= match.getTeam2() %>
                                     </div>
-                                    <div class="lbl">Wickets</div>
-                                </div>
-                                <div class="stat-box">
-                                    <div class="val">
-                                        <%= match.getCompletedOvers() %>
+                                    <div class="inn-score">
+                                        <%= match.getRuns2() %><span>/<%= match.getWickets2() %></span>
                                     </div>
-                                    <div class="lbl">Overs</div>
+                                    <div class="inn-overs">
+                                        (<%= match.getCompletedOvers2() %>.<%= match.getBallsInOver2() %> Overs)
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="section-title">⚡ Over by Over Breakdown</div>
-                            <table class="over-table">
+                            <!-- Innings 1 Over by Over -->
+                            <div class="section-title">
+                                <%= match.getTeam1() %> — Over by Over
+                            </div>
+                            <table class="over-table t1">
                                 <tr>
                                     <th>Over</th>
                                     <th>Balls</th>
                                     <th>Runs</th>
                                 </tr>
-                                <% List<List<String>> allOvers = match.getAllOvers();
-                                    for (int i = 0; i < allOvers.size(); i++) { List<String> over = allOvers.get(i);
+                                <% List<List<String>> overs1 = match.getAllOvers1();
+                                    for (int i = 0; i < overs1.size(); i++) { List<String> over = overs1.get(i);
                                         int overRuns = 0;
                                         for (String b : over) {
                                         try { overRuns += Integer.parseInt(b); }
@@ -411,23 +455,70 @@
                                         <% } %>
                             </table>
 
-                            <% if (!match.getFallOfWickets().isEmpty()) { %>
-                                <div class="section-title">🔴 Fall of Wickets</div>
+                            <!-- Innings 1 Fall of Wickets -->
+                            <% if (!match.getFallOfWickets1().isEmpty()) { %>
+                                <div class="section-title">🔴 <%= match.getTeam1() %> — Fall of Wickets</div>
                                 <div class="fow-list">
-                                    <% for (String fow : match.getFallOfWickets()) { %>
+                                    <% for (String fow : match.getFallOfWickets1()) { %>
                                         <span class="fow-badge">🔴 <%= fow %></span>
                                         <% } %>
                                 </div>
                                 <% } %>
 
-                                    <div class="btn-row">
-                                        <button class="btn-print" onclick="window.print()">
-                                            🖨️ Print Scorecard
-                                        </button>
-                                        <a href="index.jsp" class="btn-new">
-                                            🏏 New Match
-                                        </a>
+                                    <!-- Innings 2 Over by Over -->
+                                    <div class="section-title">
+                                        <%= match.getTeam2() %> — Over by Over
                                     </div>
+                                    <table class="over-table t2">
+                                        <tr>
+                                            <th>Over</th>
+                                            <th>Balls</th>
+                                            <th>Runs</th>
+                                        </tr>
+                                        <% List<List<String>> overs2 = match.getAllOvers2();
+                                            for (int i = 0; i < overs2.size(); i++) { List<String> over = overs2.get(i);
+                                                int overRuns = 0;
+                                                for (String b : over) {
+                                                try { overRuns += Integer.parseInt(b); }
+                                                catch (NumberFormatException e) {
+                                                if (b.equals("WD") || b.equals("NB")) overRuns += 1;
+                                                }
+                                                }
+                                                %>
+                                                <tr>
+                                                    <td><b style="color:#1565c0">Over <%= (i+1) %></b></td>
+                                                    <td>
+                                                        <% for (String b : over) { %>
+                                                            <span class="ball-dot b<%= b %>">
+                                                                <%= b %>
+                                                            </span>
+                                                            <% } %>
+                                                    </td>
+                                                    <td><b>
+                                                            <%= overRuns %>
+                                                        </b></td>
+                                                </tr>
+                                                <% } %>
+                                    </table>
+
+                                    <!-- Innings 2 Fall of Wickets -->
+                                    <% if (!match.getFallOfWickets2().isEmpty()) { %>
+                                        <div class="section-title">🔴 <%= match.getTeam2() %> — Fall of Wickets</div>
+                                        <div class="fow-list">
+                                            <% for (String fow : match.getFallOfWickets2()) { %>
+                                                <span class="fow-badge">🔴 <%= fow %></span>
+                                                <% } %>
+                                        </div>
+                                        <% } %>
+
+                                            <div class="btn-row">
+                                                <button class="btn-print" onclick="window.print()">
+                                                    🖨️ Print Scorecard
+                                                </button>
+                                                <a href="index.jsp" class="btn-new">
+                                                    🏏 New Match
+                                                </a>
+                                            </div>
 
                         </div>
                     </div>
